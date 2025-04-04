@@ -12,6 +12,7 @@
 		752ACA062D98A96500FCB52B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 752ACA052D98A96500FCB52B /* Preview Assets.xcassets */; };
 		A74B24BD2D9F6BDC0088A9EC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A74B24BC2D9F6BDC0088A9EC /* GoogleService-Info.plist */; };
 		A74B24C02DA00A0F0088A9EC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A74B24BF2DA00A0F0088A9EC /* FirebaseAnalytics */; };
+		A74B24D42DA06C390088A9EC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A74B24D32DA06C390088A9EC /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A74B24C12DA044EF0088A9EC /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		A74B24C82DA049AB0088A9EC /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+		A74B24CF2DA06BE90088A9EC /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +35,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A74B24C02DA00A0F0088A9EC /* FirebaseAnalytics in Frameworks */,
+				A74B24D42DA06C390088A9EC /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				752AC9FD2D98A96100FCB52B /* TaskMaster */,
+				A74B24D22DA06C390088A9EC /* Frameworks */,
 				752AC9FC2D98A96100FCB52B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +62,7 @@
 		752AC9FD2D98A96100FCB52B /* TaskMaster */ = {
 			isa = PBXGroup;
 			children = (
+				A74B24CF2DA06BE90088A9EC /* Models */,
 				A74B24C82DA049AB0088A9EC /* Extensions */,
 				A74B24C12DA044EF0088A9EC /* Views */,
 				752AC9FE2D98A96100FCB52B /* TaskMasterApp.swift */,
@@ -74,6 +79,13 @@
 				752ACA052D98A96500FCB52B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A74B24D22DA06C390088A9EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,6 +106,7 @@
 			fileSystemSynchronizedGroups = (
 				A74B24C12DA044EF0088A9EC /* Views */,
 				A74B24C82DA049AB0088A9EC /* Extensions */,
+				A74B24CF2DA06BE90088A9EC /* Models */,
 			);
 			name = TaskMaster;
 			productName = TaskMaster;
@@ -370,6 +383,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A74B24BE2DA00A0F0088A9EC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		A74B24D32DA06C390088A9EC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A74B24BE2DA00A0F0088A9EC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

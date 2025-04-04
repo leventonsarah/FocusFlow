@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AddTaskView: View {
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var viewModel: TaskViewModel
+
     @State private var title = ""
     @State private var dueDate = Date()
     @State private var priority = 1
@@ -20,7 +22,8 @@ struct AddTaskView: View {
 
             Section {
                 Button("Save Task") {
-                    // save the task (use firebase or not ?)
+                    let newTask = Task(title: title, dueDate: dueDate, isCompleted: false, priority: priority)
+                    viewModel.addTask(newTask)
                     dismiss()
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -30,9 +33,10 @@ struct AddTaskView: View {
     }
 }
 
-
 struct AddTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTaskView()
+        NavigationView {
+            AddTaskView(viewModel: TaskViewModel())
+        }
     }
 }

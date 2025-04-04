@@ -14,7 +14,7 @@ struct HomeButtonView: View {
     let color: Color
 
     var body: some View {
-        VStack {
+        VStack(spacing: 12) {
             Image(systemName: systemImage)
                 .font(.system(size: 36, weight: .bold))
             Text(title)
