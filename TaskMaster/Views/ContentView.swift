@@ -7,25 +7,30 @@ struct ContentView: View {
                 Text("FocusFlow")
                     .font(.largeTitle.bold())
                     .padding(.top, 40)
-                    .foregroundColor(.paletteNavy)
+                    .foregroundColor(.tomatoRed)
 
                 Spacer()
 
                 NavigationLink(destination: TaskListView()) {
-                    HomeButtonView(title: "Tasks", systemImage: "list.bullet", color: .paletteSoftBlue)
+                    HomeButtonView(title: "Tasks", systemImage: "list.bullet", color: .softGreen)
                 }
                 
                 NavigationLink(destination: PomodoroTimerView()) {
-                    HomeButtonView(title: "Pomodoro Timer", systemImage: "clock.fill", color: .paletteVibrantRed)
+                    HomeButtonView(title: "Pomodoro Timer", systemImage: "clock.fill", color: .tomatoRed)
                 }
                 
                 NavigationLink(destination: CalendarView()) {
-                    HomeButtonView(title: "Calendar", systemImage: "calendar", color: .paletteDeepRed)
+                    HomeButtonView(title: "Calendar", systemImage: "calendar", color: .softGreen)
+                }
+                
+                NavigationLink(destination: MotivationView()) {
+                    HomeButtonView(title: "Motivation", systemImage: "sparkles", color: .tomatoRed)
                 }
                                 
                 Spacer()
             }
             .padding()
+            .background(Color.softBeige.ignoresSafeArea())
         }
 
     }
