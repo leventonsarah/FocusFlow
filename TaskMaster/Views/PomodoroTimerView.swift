@@ -12,8 +12,8 @@ struct PomodoroTimerView: View {
 
     var body: some View {
         ZStack {
-            Color.paletteCream.ignoresSafeArea()
-
+            Color.softBeige.ignoresSafeArea()
+            
             VStack(spacing: 20) {
                 Image("tomato")
                     .resizable()
@@ -23,33 +23,29 @@ struct PomodoroTimerView: View {
 
                 Text(isBreakTime ? "Break Time" : "Pomodoro Timer")
                     .font(.largeTitle.bold())
-                    .foregroundColor(.paletteNavy)
+                    .foregroundColor(isBreakTime ? .warmYellow : .tomatoRed)
                     .padding(.top, 20)
 
                 Text("\(timeRemaining / 60):\(String(format: "%02d", timeRemaining % 60))")
                     .font(.system(size: 60, weight: .bold))
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.paletteSoftBlue.opacity(0.2))
+                    .background(Color.lightGray)
                     .cornerRadius(16)
-                    .foregroundColor(.paletteNavy)
+                    .foregroundColor(.deepNavy)
 
                 HStack(spacing: 20) {
-                    
-                    
                     Button(isRunning ? "Pause" : "Start") {
                         isRunning.toggle()
                     }
                     .font(.title2)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.paletteVibrantRed)
+                    .background(Color.tomatoRed)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .shadow(radius: 4)
 
-                    
-                    
                     Button("Reset") {
                         timeRemaining = isBreakTime ? (pomodoroCount % 4 == 0 ? 15 * 60 : 5 * 60) : 25 * 60
                         isRunning = false
@@ -57,42 +53,34 @@ struct PomodoroTimerView: View {
                     .font(.title2)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.paletteDeepRed)
+                    .background(Color.warmYellow)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .shadow(radius: 4)
-                    
-                    
-                    
-                    //skip function is on bottom
+
                     Button("Skip") {
                         skipCurrentSession()
                     }
                     .font(.title2)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.orange)
+                    .background(Color.tomatoRed)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .shadow(radius: 4)
-                    
-   
                 }
                 .padding(.horizontal)
-                
-
-                
-                
 
                 VStack(alignment: .center, spacing: 10) {
                     Text("Reminders")
                         .font(.title3.bold())
-                        .foregroundColor(.paletteNavy)
+                        .foregroundColor(.deepNavy)
                         .padding(.top, 10)
 
                     TextField("Enter a thought...", text: $newReminder)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.lightGray)
+                        .cornerRadius(8)
 
                     Button("Add Reminder") {
                         if !newReminder.isEmpty {
@@ -103,15 +91,15 @@ struct PomodoroTimerView: View {
                     .font(.title3)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.paletteSoftBlue)
+                    .background(Color.softGreen)
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    .shadow(radius: 3)
-                    .padding(.horizontal)
+                    .shadow(radius: 4)
                 }
-
+                .padding(.horizontal)
+            
                 List {
-                    ForEach(reminders, id: \ .self) { reminder in
+                    ForEach(reminders, id: \.self) { reminder in
                         Text(reminder)
                             .padding(.vertical, 4)
                     }
@@ -129,7 +117,7 @@ struct PomodoroTimerView: View {
                 timeRemaining -= 1
             } else if isRunning && timeRemaining == 0 {
                 isRunning = false
-
+                
                 if isBreakTime {
                     isBreakTime = false
                     timeRemaining = 25 * 60
@@ -138,29 +126,19 @@ struct PomodoroTimerView: View {
                     isBreakTime = true
                     timeRemaining = (pomodoroCount % 4 == 0) ? 15 * 60 : 5 * 60
                 }
-
+                
                 isRunning = true
             }
         }
         .navigationTitle("Pomodoro")
     }
-    
-    
-    
-    
+
     func skipCurrentSession() {
         isRunning = false
         timeRemaining = 25 * 60  // 重置为一个新的工作周期
         isBreakTime = false  // 确保退出休息时间
     }
-
 }
-
-
-
-
-
-
 
 struct PomodoroTimerView_Previews: PreviewProvider {
     static var previews: some View {
