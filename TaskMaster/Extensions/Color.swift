@@ -9,22 +9,10 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    static let paletteDeepRed = Color(hex: "#780000")
-    static let paletteVibrantRed = Color(hex: "#C1121F")
-    static let paletteCream = Color(hex: "#FDF0D5")
-    static let paletteNavy = Color(hex: "#003049")
-    static let paletteSoftBlue = Color(hex: "#669BBC")
-    
-    init(hex: String) {
-        let scanner = Scanner(string: hex)
-        _ = scanner.scanString("#")
-        var rgb: UInt64 = 0
-        scanner.scanHexInt64(&rgb)
-
-        let r = Double((rgb >> 16) & 0xFF) / 255
-        let g = Double((rgb >> 8) & 0xFF) / 255
-        let b = Double(rgb & 0xFF) / 255
-
-        self.init(red: r, green: g, blue: b)
-    }
+    static let tomatoRed = Color(red: 235/255, green: 87/255, blue: 87/255)
+    static let softBeige = Color(red: 250/255, green: 245/255, blue: 240/255)
+    static let deepNavy = Color(red: 45/255, green: 58/255, blue: 73/255)
+    static let softGreen = Color(red: 111/255, green: 207/255, blue: 151/255)
+    static let warmYellow = Color(red: 242/255, green: 201/255, blue: 76/255)
+    static let lightGray = Color(red: 224/255, green: 224/255, blue: 224/255)
 }
