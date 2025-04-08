@@ -11,20 +11,28 @@ import SwiftUI
 struct HomeButtonView: View {
     let title: String
     let systemImage: String
-    let color: Color
-
+    
     var body: some View {
-        VStack(spacing: 12) {
+        HStack {
             Image(systemName: systemImage)
-                .font(.system(size: 36, weight: .bold))
+                .font(.system(size: 28, weight: .semibold))
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.accentColor)
+                .clipShape(Circle())
+            
             Text(title)
-                .font(.title2.bold())
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
         }
-        .frame(maxWidth: .infinity, minHeight: 100)
         .padding()
-        .background(color)
-        .foregroundColor(.white)
-        .cornerRadius(16)
-        .shadow(radius: 4)
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(15)
+        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }

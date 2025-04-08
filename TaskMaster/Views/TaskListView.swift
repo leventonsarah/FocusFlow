@@ -21,7 +21,7 @@ struct TaskListView: View {
                 }
                 .onDelete(perform: viewModel.deleteTask)
             }
-            .navigationTitle("FocusFlow")
+            .navigationTitle("Tasks")
             .toolbar {
                 NavigationLink(destination: AddTaskView(viewModel: viewModel)) {
                     Image(systemName: "plus")

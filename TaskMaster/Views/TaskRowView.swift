@@ -11,14 +11,30 @@ import SwiftUI
 struct TaskRowView: View {
     let task: Task
     let toggleComplete: () -> Void
+    
+    func priorityColor(for priority: Int) -> Color {
+        switch priority {
+        case 0: return .green
+        case 1: return .yellow
+        case 2: return .red
+        default: return .gray   
+        }
+    }
 
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(task.title).font(.headline)
-                Text("Due: \(task.dueDate.formatted(date: .abbreviated, time: .shortened))")
-                    .font(.caption)
-                    .foregroundColor(.gray)
+                
+                HStack {
+                    Circle()
+                        .fill(priorityColor(for: task.priority))
+                        .frame(width: 10, height: 10)
+                    
+                    Text("Due: \(task.dueDate.formatted(date: .abbreviated, time: .shortened))")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
             }
             Spacer()
             Button(action: toggleComplete) {
