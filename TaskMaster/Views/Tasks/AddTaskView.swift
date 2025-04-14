@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseAuth
 
 struct AddTaskView: View {
     @Environment(\.dismiss) var dismiss
@@ -22,9 +23,11 @@ struct AddTaskView: View {
 
             Section {
                 Button("Save Task") {
-                    let newTask = Task(title: title, dueDate: dueDate, isCompleted: false, priority: priority)
-                    viewModel.addTask(newTask)
-                    dismiss()
+                    if let userId = Auth.auth().currentUser?.uid {
+                        let newTask = Task(title: title, dueDate: dueDate, isCompleted: false, priority: priority, userId: userId)
+                        viewModel.addTask(newTask)
+                        dismiss()
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
             }

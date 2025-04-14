@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 import UserNotifications
 
 class EventViewModel: ObservableObject {
@@ -18,26 +19,50 @@ class EventViewModel: ObservableObject {
     }
 
     func fetchEvents() {
-        db.collection("events").order(by: "date").addSnapshotListener { snapshot, error in
-            guard let documents = snapshot?.documents else { return }
-            self.events = documents.compactMap { try? $0.data(as: Event.self) }
-        }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        db.collection("events")
+            .whereField("userId", isEqualTo: userId)
+            .order(by: "date")
+            .addSnapshotListener { snapshot, error in
+                guard let documents = snapshot?.documents else { return }
+                self.events = documents.compactMap { try? $0.data(as: Event.self) }
+            }
     }
 
-    func addEvent(_ event: Event) {
+    func addEvent(title: String, date: Date) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        let newEvent = Event(id: nil, title: title, date: date, userId: userId)
+
         do {
-            let docRef = try db.collection("events").addDocument(from: event)
-            scheduleNotification(for: event, id: docRef.documentID)
+            let docRef = try db.collection("events").addDocument(from: newEvent)
+            docRef.getDocument { _, error in
+                if let error = error {
+                    print("Error confirming added document: \(error)")
+                } else {
+                    self.fetchEvents()
+                    self.scheduleNotification(for: newEvent, id: docRef.documentID)
+                    print("Event added: \(newEvent.title)")
+                }
+            }
         } catch {
             print("Error adding event: \(error)")
         }
     }
 
-
     func deleteEvent(_ event: Event) {
         guard let id = event.id else { return }
-        db.collection("events").document(id).delete()
-        removeNotification(id: id)
+
+        db.collection("events").document(id).delete { error in
+            if let error = error {
+                print("Error deleting: \(error.localizedDescription)")
+            } else {
+                self.fetchEvents()
+                self.removeNotification(id: id)
+                print("Event deleted: \(event.title)")
+            }
+        }
     }
 
     func scheduleNotification(for event: Event, id: String? = nil) {
@@ -46,8 +71,11 @@ class EventViewModel: ObservableObject {
         content.body = event.title
         content.sound = .default
 
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: event.date)
-        
+        let triggerDate = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute],
+            from: event.date
+        )
+
         guard let triggerDateTime = Calendar.current.date(from: triggerDate), triggerDateTime > Date() else {
             print("Event time is in the past, notification won't be scheduled.")
             return
@@ -55,7 +83,11 @@ class EventViewModel: ObservableObject {
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
-        let request = UNNotificationRequest(identifier: id ?? UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(
+            identifier: id ?? UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {

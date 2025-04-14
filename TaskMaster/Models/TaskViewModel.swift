@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 class TaskViewModel: ObservableObject {
     @Published var tasks: [Task] = []
@@ -19,20 +20,31 @@ class TaskViewModel: ObservableObject {
     }
 
     func fetchTasks() {
-        db.collection("tasks").order(by: "dueDate").addSnapshotListener { snapshot, error in
-            guard let documents = snapshot?.documents else {
-                print("No documents")
-                return
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        db.collection("tasks")
+            .whereField("userId", isEqualTo: userId)
+            .order(by: "dueDate")
+            .addSnapshotListener { snapshot, error in
+                guard let documents = snapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                self.tasks = documents.compactMap { doc -> Task? in
+                    try? doc.data(as: Task.self)
+                }
             }
-            self.tasks = documents.compactMap { doc -> Task? in
-                try? doc.data(as: Task.self)
-            }
-        }
     }
 
     func addTask(_ task: Task) {
         do {
-            _ = try db.collection("tasks").addDocument(from: task)
+            _ = try db.collection("tasks").addDocument(from: task) { error in
+                if let error = error {
+                    print("Error adding task: \(error)")
+                } else {
+                    self.fetchTasks()
+                }
+            }
         } catch {
             print("Error adding task: \(error)")
         }
@@ -40,7 +52,11 @@ class TaskViewModel: ObservableObject {
 
     func toggleCompletion(for task: Task) {
         guard let id = task.id else { return }
-        let updatedTask = Task(id: id, title: task.title, dueDate: task.dueDate, isCompleted: !task.isCompleted, priority: task.priority)
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        let updatedTask = Task(title: task.title, dueDate: task.dueDate, isCompleted: !task.isCompleted, priority: task.priority, userId: userId)
+        
         do {
             try db.collection("tasks").document(id).setData(from: updatedTask)
         } catch {

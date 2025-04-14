@@ -1,4 +1,5 @@
 import SwiftUI
+import Firebase
 import FirebaseCore
 import UserNotifications
 
@@ -30,10 +31,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 @main
 struct TaskMasterApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @AppStorage("isUserLoggedIn") var isUserLoggedIn = false
     
     var body: some Scene {
         WindowGroup {
-            ContentView() 
+            if isUserLoggedIn {
+                ContentView()
+            } else {
+                LoginView(isUserLoggedIn: $isUserLoggedIn)
+            }
         }
     }
 }

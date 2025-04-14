@@ -11,9 +11,10 @@ import Firebase
 import FirebaseFirestore
 
 struct Task: Identifiable, Codable {
-    @DocumentID var id: String? = UUID().uuidString
+    @DocumentID var id: String?  
     var title: String
     var dueDate: Date
     var isCompleted: Bool
     var priority: Int
+    var userId: String
 }

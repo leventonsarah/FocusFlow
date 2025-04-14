@@ -14,10 +14,10 @@ struct TaskRowView: View {
     
     func priorityColor(for priority: Int) -> Color {
         switch priority {
-        case 0: return .green
-        case 1: return .yellow
-        case 2: return .red
-        default: return .gray   
+            case 0: return .green
+            case 1: return .yellow
+            case 2: return .red
+            default: return .gray
         }
     }
 
@@ -46,11 +46,3 @@ struct TaskRowView: View {
     }
 }
 
-struct TaskRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        TaskRowView(task: Task(title: "Sample Task", dueDate: Date(), isCompleted: false, priority: 1)) {
-            print("Task toggled")
-        }
-        .previewLayout(.sizeThatFits)
-    }
-}

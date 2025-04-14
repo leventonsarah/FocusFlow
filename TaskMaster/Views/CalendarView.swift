@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
 import UserNotifications
 
 struct CalendarView: View {
@@ -46,7 +45,7 @@ struct CalendarView: View {
                             }
                             Spacer()
                             Button(role: .destructive) {
-                                deleteEvent(event)
+                                eventViewModel.deleteEvent(event)
                             } label: {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
@@ -62,7 +61,8 @@ struct CalendarView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Button("Add") {
-                    addEvent()
+                    eventViewModel.addEvent(title: newEventTitle, date: selectedDate)
+                    newEventTitle = ""
                 }
                 .disabled(newEventTitle.isEmpty)
                 .buttonStyle(.borderedProminent)
@@ -73,40 +73,6 @@ struct CalendarView: View {
         .onAppear {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
         }
-    }
-
-    func addEvent() {
-        let event = Event(title: newEventTitle, date: selectedDate)
-        eventViewModel.addEvent(event) 
-        newEventTitle = ""
-    }
-
-
-    func scheduleNotification(for event: Event) {
-        let content = UNMutableNotificationContent()
-        content.title = "Reminder"
-        content.body = "Event: \(event.title)"
-        content.sound = .default
-
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: event.date)
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: trigger
-        )
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func deleteEvent(_ event: Event) {
-        eventViewModel.deleteEvent(event)
     }
 }
 
