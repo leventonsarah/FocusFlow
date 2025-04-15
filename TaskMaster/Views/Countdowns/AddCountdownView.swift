@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
 struct AddCountdownView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: CountdownViewModel
@@ -37,7 +39,7 @@ struct AddCountdownView: View {
                 }
 
                 Button("Save") {
-                    let newEvent = CountdownEvent(
+                    let newEvent = Countdown(
                         title: title,
                         date: date,
                         category: category,
