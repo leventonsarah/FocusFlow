@@ -88,29 +88,11 @@ struct ContentView: View {
             if isUserLoggedIn {
                 NavigationView {
                     VStack(spacing: 24) {
-                        
-                        // FocusFlow title and optional D-Day
                         VStack(alignment: .leading, spacing: 4) {
                             Text("FocusFlow")
                                 .font(.system(size: 32, weight: .heavy, design: .rounded))
                                 .foregroundColor(.primary)
 
-                            if let next = countdownViewModel.upcomingHomeEvent {
-                                HStack {
-                                    Image(systemName: "calendar.badge.clock")
-                                        .foregroundColor(.blue)
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(next.title)
-                                            .font(.subheadline.bold())
-                                        Text("D-\(daysLeft(until: next.date))")
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
-                                .padding(8)
-                                .background(Color.blue.opacity(0.1))
-                                .cornerRadius(12)
-                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 40)
@@ -151,6 +133,25 @@ struct ContentView: View {
                     .padding()
                     .background(Color(.systemGroupedBackground).ignoresSafeArea())
                     .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            if let next = countdownViewModel.upcomingHomeEvent {
+                                HStack {
+                                    Image(systemName: "calendar.badge.clock")
+                                        .foregroundColor(.blue)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(next.title)
+                                            .font(.subheadline.bold())
+                                        Text("D-\(daysLeft(until: next.date))")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                .padding(8)
+                                .background(Color.blue.opacity(0.1))
+                                .cornerRadius(12)
+                            }
+                            
+                        }
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
                                 do {
@@ -192,7 +193,6 @@ struct ContentView: View {
         return components.day ?? 0
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
