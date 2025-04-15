@@ -11,8 +11,8 @@ struct AddTaskView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Task Info")) {
-                TextField("Task Title", text: $title)
+            Section(header: Text("To-Do Info")) {
+                TextField("To-Do Title", text: $title)
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
                 Picker("Priority", selection: $priority) {
                     Text("Low").tag(0)
@@ -22,7 +22,7 @@ struct AddTaskView: View {
             }
 
             Section {
-                Button("Save Task") {
+                Button("Save To-Do") {
                     if let userId = Auth.auth().currentUser?.uid {
                         let newTask = Task(title: title, dueDate: dueDate, isCompleted: false, priority: priority, userId: userId)
                         viewModel.addTask(newTask)
@@ -32,7 +32,7 @@ struct AddTaskView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             }
         }
-        .navigationTitle("Add New Task")
+        .navigationTitle("Add New To-Do")
         .navigationBarBackButtonHidden(true)
     }
 }

@@ -14,7 +14,7 @@ struct TaskListView: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Incomplete Tasks")) {
+                Section(header: Text("Incomplete To-Dos")) {
                     ForEach(viewModel.tasks.filter { !$0.isCompleted }) { task in
                         TaskRowView(task: task) {
                             viewModel.toggleCompletion(for: task)
@@ -23,7 +23,7 @@ struct TaskListView: View {
                     .onDelete(perform: viewModel.deleteTask)
                 }
                 
-                Section(header: Text("Completed Tasks")) {
+                Section(header: Text("Completed To-Dos")) {
                     ForEach(viewModel.tasks.filter { $0.isCompleted }) { task in
                         TaskRowView(task: task) {
                             viewModel.toggleCompletion(for: task)
@@ -32,7 +32,7 @@ struct TaskListView: View {
                     .onDelete(perform: viewModel.deleteTask)
                 }
             }
-            .navigationTitle("Tasks")
+            .navigationTitle("To-Do List")
             .toolbar {
                 NavigationLink(destination: AddTaskView(viewModel: viewModel)) {
                     Image(systemName: "plus")

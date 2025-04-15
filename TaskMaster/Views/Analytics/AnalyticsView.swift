@@ -1,4 +1,5 @@
 import SwiftUI
+import Charts
 
 struct AnalyticsView: View {
     @ObservedObject var taskViewModel: TaskViewModel
@@ -35,57 +36,89 @@ struct AnalyticsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Task Analytics")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                    .padding([.top, .leading])
+            VStack(alignment: .leading, spacing: 25) {
+                Group {
+                    Text("📊 Task Analytics")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal)
 
-                HStack(spacing: 20) {
-                    AnalyticsCard(title: "Completed Tasks", value: completedTasks, total: totalTasks, percentage: completedPercentage, color: .green)
-                    AnalyticsCard(title: "Incomplete Tasks", value: incompleteTasks, total: totalTasks, percentage: incompletePercentage, color: .red)
-                }
-                .padding([.leading, .trailing])
+                    HStack(spacing: 15) {
+                        AnalyticsCard(title: "Completed", value: completedTasks, total: totalTasks, percentage: completedPercentage, color: .green)
+                        AnalyticsCard(title: "Incomplete", value: incompleteTasks, total: totalTasks, percentage: incompletePercentage, color: .red)
+                    }
+                    .padding(.horizontal)
 
-                VStack(alignment: .leading, spacing: 15) {
-                    ProgressSection(title: "Completed Tasks", value: completedTasks, total: totalTasks, color: .green)
-                    ProgressSection(title: "Incomplete Tasks", value: incompleteTasks, total: totalTasks, color: .red)
+                    VStack(spacing: 20) {
+                        ProgressSection(title: "Completed Tasks", value: completedTasks, total: totalTasks, color: .green)
+                        ProgressSection(title: "Incomplete Tasks", value: incompleteTasks, total: totalTasks, color: .red)
+                    }
+                    .padding(.horizontal)
                 }
-                .padding([.leading, .trailing])
 
                 Divider().padding(.horizontal)
 
-                Text("Study Analytics")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                    .padding([.top, .leading])
+                Group {
+                    Text("⏱ Study Analytics")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal)
 
-                HStack(spacing: 20) {
-                    AnalyticsCard(title: "Pomodoro Sessions", value: totalPomodoros, total: totalPomodoros, percentage: 100, color: .blue)
-                    AnalyticsCard(title: "Active Reminders", value: totalReminders, total: totalReminders, percentage: 100, color: .orange)
-                }
-                .padding([.leading, .trailing])
+                    Picker("Analytics Period", selection: $pomodoroViewModel.selectedPeriod) {
+                        ForEach(AnalyticsPeriod.allCases) { period in
+                            Text(period.rawValue).tag(period)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+                    .onChange(of: pomodoroViewModel.selectedPeriod) { _ in
+                        pomodoroViewModel.fetchSessions()
+                    }
 
-                VStack(alignment: .leading, spacing: 15) {
-                    ProgressSection(title: "Total Pomodoros Completed", value: totalPomodoros, total: totalPomodoros, color: .blue)
-                    ProgressSection(title: "Total Active Reminders", value: totalReminders, total: totalReminders, color: .orange)
+                    HStack(spacing: 15) {
+                        AnalyticsCard(title: "Pomodoro Sessions", value: pomodoroViewModel.pomodoroCount, color: .blue)
+                        AnalyticsCard(title: "Break Sessions", value: pomodoroViewModel.breakCount, color: .purple)
+                    }
+                    .frame(height: 120)
+                    .padding(.horizontal)
+
+
+                    Text("Pomodoros per Day")
+                        .font(.headline)
+                        .padding(.horizontal)
+
+                    if pomodoroViewModel.sortedPomodoroData.isEmpty {
+                        Text("No data available")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.horizontal)
+                    } else {
+                        Chart {
+                            ForEach(pomodoroViewModel.sortedPomodoroData, id: \.0) { (day, count) in
+                                BarMark(
+                                    x: .value("Day", day),
+                                    y: .value("Pomodoros", count)
+                                )
+                                .foregroundStyle(Color.blue)
+                            }
+                        }
+                        .frame(height: 220)
+                        .padding(.horizontal)
+                    }
                 }
-                .padding([.leading, .trailing])
             }
-            .cornerRadius(20)
-            .padding()
+            .padding(.vertical)
         }
         .navigationTitle("Analytics")
+
     }
 }
 
 struct AnalyticsCard: View {
     var title: String
     var value: Int
-    var total: Int
-    var percentage: Double
+    var total: Int? = nil
+    var percentage: Double? = nil
     var color: Color
 
     var body: some View {
@@ -93,18 +126,27 @@ struct AnalyticsCard: View {
             Text(title)
                 .font(.headline)
                 .foregroundColor(.secondary)
-            Text("\(value) / \(total)")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(color)
-            ProgressBar(value: percentage, color: color)
-                .frame(height: 10)
+
+            if let total = total, let percentage = percentage {
+                Text("\(value) / \(total)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(color)
+                ProgressBar(value: percentage, color: color)
+                    .frame(height: 10)
+            } else {
+                Text("\(value)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(color)
+            }
         }
         .padding()
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: 120)
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).shadow(radius: 5))
     }
 }
+
 
 struct ProgressBar: View {
     var value: Double

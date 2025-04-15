@@ -18,7 +18,7 @@ struct ContentView: View {
                         
                         VStack(spacing: 16) {
                             NavigationLink(destination: TaskListView()) {
-                                HomeButtonView(title: "Tasks", systemImage: "checkmark.circle")
+                                HomeButtonView(title: "To-Do List", systemImage: "checkmark.circle")
                             }
                             
                             NavigationLink(destination: PomodoroTimerView()) {
