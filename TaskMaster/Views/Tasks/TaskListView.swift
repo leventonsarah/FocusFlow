@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TaskListView: View {
     @StateObject private var viewModel = TaskViewModel()
+    @State private var showingAddTaskView = false
     
     var body: some View {
         NavigationView {
@@ -34,8 +35,17 @@ struct TaskListView: View {
             }
             .navigationTitle("To-Do List")
             .toolbar {
-                NavigationLink(destination: AddTaskView(viewModel: viewModel)) {
-                    Image(systemName: "plus")
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingAddTaskView = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingAddTaskView) {
+                NavigationView {
+                    AddTaskView(viewModel: viewModel)
                 }
             }
         }

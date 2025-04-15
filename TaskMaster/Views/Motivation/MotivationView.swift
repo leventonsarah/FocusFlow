@@ -16,6 +16,7 @@ struct MotivationView: View {
     @State private var quotes: [Quote] = []
     @State private var currentIndex: Int = 0
     @StateObject private var favoritesViewModel = FavoritesViewModel()
+    @State private var showingFavoritesView = false
 
     var body: some View {
         NavigationView { 
@@ -59,7 +60,28 @@ struct MotivationView: View {
 
                     Spacer()
 
-                    NavigationLink(destination: FavoritesView()) {
+//                    NavigationLink(destination: FavoritesView()) {
+//                        HStack(spacing: 8) {
+//                            Image(systemName: "heart.fill")
+//                            Text("View Favorites")
+//                        }
+//                        .font(.headline)
+//                        .foregroundColor(.white)
+//                        .padding(.vertical, 12)
+//                        .padding(.horizontal, 24)
+//                        .background(Color.white.opacity(0.2))
+//                        .cornerRadius(16)
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 16)
+//                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+//                        )
+//                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 4)
+//                    }
+//                    .padding(.bottom, 30)
+                    
+                    Button(action: {
+                        showingFavoritesView = true
+                    }) {
                         HStack(spacing: 8) {
                             Image(systemName: "heart.fill")
                             Text("View Favorites")
@@ -76,7 +98,11 @@ struct MotivationView: View {
                         )
                         .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 4)
                     }
-                    .padding(.bottom, 30)
+                    .sheet(isPresented: $showingFavoritesView) {
+                        NavigationView {
+                            FavoritesView()
+                        }
+                    }
                 }
                 .padding(.horizontal)
                 .onAppear {

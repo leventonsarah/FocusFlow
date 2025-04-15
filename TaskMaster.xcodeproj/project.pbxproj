@@ -29,6 +29,7 @@
 		A74B24C12DA044EF0088A9EC /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		A74B24C82DA049AB0088A9EC /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		A74B24CF2DA06BE90088A9EC /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		A7CBEAB32DAED96400EA301E /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +67,7 @@
 		752AC9FD2D98A96100FCB52B /* TaskMaster */ = {
 			isa = PBXGroup;
 			children = (
+				A7CBEAB32DAED96400EA301E /* ViewModels */,
 				A74B24CF2DA06BE90088A9EC /* Models */,
 				A74B24C82DA049AB0088A9EC /* Extensions */,
 				A74B24C12DA044EF0088A9EC /* Views */,
@@ -111,6 +113,7 @@
 				A74B24C12DA044EF0088A9EC /* Views */,
 				A74B24C82DA049AB0088A9EC /* Extensions */,
 				A74B24CF2DA06BE90088A9EC /* Models */,
+				A7CBEAB32DAED96400EA301E /* ViewModels */,
 			);
 			name = TaskMaster;
 			productName = TaskMaster;

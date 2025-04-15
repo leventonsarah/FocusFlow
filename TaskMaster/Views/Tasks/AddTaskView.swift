@@ -33,7 +33,6 @@ struct AddTaskView: View {
             }
         }
         .navigationTitle("Add New To-Do")
-        .navigationBarBackButtonHidden(true)
     }
 }
 
