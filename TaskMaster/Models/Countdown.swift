@@ -43,7 +43,7 @@ struct Countdown: Identifiable, Codable {
             let showOnHome = dict["showOnHome"] as? Bool
         else { return nil }
 
-        self.id = dict["id"] as? String ?? UUID().uuidString // use doc ID
+        self.id = dict["id"] as? String ?? UUID().uuidString
         self.title = title
         self.date = timestamp.dateValue()
         self.category = category
