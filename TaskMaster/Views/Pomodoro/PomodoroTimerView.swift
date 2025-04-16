@@ -29,7 +29,7 @@ struct PomodoroTimerView: View {
             Color(.systemGroupedBackground).ignoresSafeArea()
             
             VStack(spacing: 40) {
-                Text("FocusFlow Timer")
+                Text("Pomodoro Timer")
                     .font(.largeTitle.bold())
                     .padding(.top, 40)
 
@@ -92,14 +92,14 @@ struct PomodoroTimerView: View {
 
                 VStack(alignment: .leading, spacing: 15) {
                     ProgressSection(
-                        title: "Pomodoro Goal Progress",
+                        title: "Daily Goal Progress",
                         value: viewModel.pomodoroCount,
                         total: viewModel.dailyGoal,
                         color: .blue
                     )
 
                     HStack {
-                        Text("Set Daily Goal:")
+                        Text("Set Goal:")
                             .font(.subheadline)
                         Spacer()
                         Stepper(value: $viewModel.dailyGoal, in: 1...10) {
