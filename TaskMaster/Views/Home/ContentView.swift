@@ -1,7 +1,7 @@
 import SwiftUI
 import FirebaseAuth
 
-<<<<<<< HEAD
+
 enum LaunchState {
     case splash, login, home
 }
@@ -262,10 +262,10 @@ struct ContentView_Previews: PreviewProvider {
 //    }
 //}
 //
-=======
-struct ContentView: View {
-    @State private var isUserLoggedIn = false
-    @StateObject private var countdownViewModel = CountdownViewModel()
->>>>>>> f5522a3d769b1e41cd7adcd7f46b569822bbe790
+
+//struct ContentView: View {
+//    @State private var isUserLoggedIn = false
+//    @StateObject private var countdownViewModel = CountdownViewModel()
+
 
 
